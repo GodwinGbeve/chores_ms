@@ -1,0 +1,48 @@
+#editChorePopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: lightblue;
+    padding: 20px;
+    border: 1px solid white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Add this line to ensure the popup appears above other elements */
+}
+
+#editChoreForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#editChoreForm label {
+    color: #017cff;
+    margin-bottom: 10px;
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red; /* Change button background color to red */
+    color: white;
+    border: 2px solid red; /* Add border around the button */
+    border-radius: 50%; /* Makes the border round */
+    width: 30px; /* Set width and height */
+    height: 30px;
+    font-size: 20px;
+    line-height: 1; /* Centers the text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+}
+
+.close-btn:hover {
+    background-color: darkred; /* Darker red on hover */
+    border-color: darkred; /* Darker border on hover */
+}

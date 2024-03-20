@@ -1,0 +1,59 @@
+/* Add your CSS styles here */
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red; /* Change button background color to red */
+    color: white;
+    border: 2px solid red; /* Add border around the button */
+    border-radius: 50%; /* Makes the border round */
+    width: 30px; /* Set width and height */
+    height: 30px;
+    font-size: 20px;
+    line-height: 1; /* Centers the text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+}
+
+.close-btn:hover {
+    background-color: darkred; /* Darker red on hover */
+    border-color: darkred; /* Darker border on hover */
+}
