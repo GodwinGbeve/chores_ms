@@ -11,6 +11,7 @@ function getAllAssignments() {
     a.assignmentid,
     c.chorename AS ChoreName,
     CONCAT(p.fname, ' ', p.lname) AS AssignedBy,
+    CONCAT(p_assigned.fname, ' ', p_assigned.lname) AS AssignedTo,
     a.date_assign AS DateAssigned,
     a.date_due AS DateDue,
     s.sname AS ChoreStatus
@@ -20,6 +21,10 @@ function getAllAssignments() {
         Chores c ON a.cid = c.cid
     INNER JOIN 
         People p ON a.who_assigned = p.pid
+    INNER JOIN
+        Assigned_people ap ON a.assignmentid = ap.assignmentid
+    INNER JOIN
+        People p_assigned ON ap.pid = p_assigned.pid
     INNER JOIN
         Status s ON a.sid = s.sid;
     ";
@@ -173,16 +178,14 @@ function getCompletedAssignments() {
     $assignments = mysqli_fetch_all($result, MYSQLI_ASSOC);
     return $assignments;
 }
-
-// Function to get all recent chore assignments
-function getRecentAssignments() {
+function getRecentAssignmentsInProgress() {
     global $con;
 
-    // Write the SELECT query for recent assignments
+    // Write the SELECT query for recent assignments in progress
     $query = "SELECT 
-                
                 c.chorename AS ChoreName,
                 CONCAT(p.fname, ' ', p.lname) AS AssignedBy,
+                CONCAT(p_assigned.fname, ' ', p_assigned.lname) AS AssignedTo,
                 a.date_assign AS DateAssigned,
                 a.date_due AS DateDue,
                 s.sname AS ChoreStatus
@@ -193,9 +196,14 @@ function getRecentAssignments() {
             INNER JOIN 
                 People p ON a.who_assigned = p.pid
             INNER JOIN
+                Assigned_people ap ON a.assignmentid = ap.assignmentid
+            INNER JOIN
+                People p_assigned ON ap.pid = p_assigned.pid
+            INNER JOIN
                 Status s ON a.sid = s.sid
             WHERE
-                s.sid = 2
+                s.sid = 2 AND
+                a.date_due > NOW()
             ORDER BY
                 a.date_assign DESC
             LIMIT 3;
@@ -215,4 +223,3 @@ function getRecentAssignments() {
     $assignments = mysqli_fetch_all($result, MYSQLI_ASSOC);
     return $assignments;
 }
-

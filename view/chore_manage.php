@@ -1,3 +1,10 @@
+<?php
+
+include('../settings/core.php');
+include ('../functions/username_fxn.php');
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +55,16 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Admin </div>
+                <?php
+        if (isset($_SESSION['user_id'])) {
+            $userId = $_SESSION['user_id'];
+            $userName = getUserName($userId, $con);
+            
+            echo '<div class="user-name">' . $userName . '</div>';
+        } else {
+            echo "Error: User ID not set in session";
+        }
+        ?>
             </a>
 
             <!-- Divider -->

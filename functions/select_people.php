@@ -7,7 +7,7 @@ function getPeopleFirstNames() {
     global $con;
 
     // Write the SELECT query to fetch the first names of people
-    $query = "SELECT fname FROM People";
+    $query = "SELECT * FROM People";
 
     // Execute the query
     $result = mysqli_query($con, $query);
@@ -32,6 +32,8 @@ if ($peopleFirstNames) {
     // Display the first names retrieved from the database
     foreach ($peopleFirstNames as $firstName) {
         echo $firstName['fname'] . "<br>";
+        echo $firstName['pid'] . "<br>";
+
     }
 } else {
     echo "Failed to fetch people's first names from the database.";

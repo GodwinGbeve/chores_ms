@@ -31,6 +31,7 @@ function checkAuthorization() {
     // Retrieve user's role ID
     $role_id = getUserRole();
 
+
     // Check user's role and control access accordingly
     switch ($role_id) {
         case 1:
@@ -40,18 +41,18 @@ function checkAuthorization() {
             // Admin can have restricted access to certain pages/actions
             // Example: Remove access to delete action
             // You can implement similar logic for other pages/actions
-            if ($_SERVER['REQUEST_URI'] == '/delete_action.php') {
+            if ($_SERVER['REQUEST_URI'] == '../functions/delete_chore_action.php') {
                 // Redirect or display an error message for restricted access
-                header('Location: /restricted_access.php');
+                header('Location: ../admin/chore_control_view.php');
                 exit();
             }
             break;
         case 3:
             // Standard user should not have access to admin pages
             // Redirect them to the main dashboard if they try to access admin pages
-            if (strpos($_SERVER['REQUEST_URI'], '/admin/') !== false) {
+            if (strpos($_SERVER['REQUEST_URI'], '..admin/') !== false) {
                 // Redirect to the main dashboard or display an error message
-                header('Location: /main_dashboard.php');
+                header('Location: ../view/userdashboard.php');
                 exit();
             }
             break;
@@ -61,4 +62,5 @@ function checkAuthorization() {
     }
 }
 
+checkAuthorization();
 ?>

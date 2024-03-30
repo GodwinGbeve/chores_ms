@@ -7,6 +7,6 @@ $allAssignments = getAllAssignments();
 $assignmentsInProgress = getAssignmentsInProgress();
 $incompleteAssignments = getIncompleteAssignments();
 $completedAssignments = getCompletedAssignments();
-$recentAssignments = getRecentAssignments();
+$recentAssignments = getRecentAssignmentsInProgress();
 
 ?>

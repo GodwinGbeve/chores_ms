@@ -1,6 +1,7 @@
 <?php
 // Include the connection file
 include '../settings/connection.php';
+include '../settings/core.php';
 
 // Check if chore ID is provided in the URL
 if (isset($_GET['id']) && !empty($_GET['id'])) {

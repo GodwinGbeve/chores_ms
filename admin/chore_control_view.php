@@ -1,7 +1,7 @@
 <?php
 // Include core.php for session management
 include_once ('../settings/core.php');
-
+include ('../functions/username_fxn.php');
 include_once ('../functions/chore_fxn.php');
 include_once '../actions/get_all_chores_actions.php';
 
@@ -27,7 +27,7 @@ include_once '../actions/get_all_chores_actions.php';
     <link href="../css/add_chore.css" rel="stylesheet">
     <link href="../css/control_view.css" rel="stylesheet">
     <link href="../css/tables.css" rel="stylesheet">
-</head>
+
 
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -37,32 +37,46 @@ include_once '../actions/get_all_chores_actions.php';
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../view/home.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Admin </div>
+                <?php
+        if (isset($_SESSION['user_id'])) {
+            $userId = $_SESSION['user_id'];
+            $userName = getUserName($userId, $con);
+            
+            echo '<div class="user-name">' . $userName . '</div>';
+        } else {
+            echo "Error: User ID not set in session";
+        }
+        ?>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="../view/home.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+          
+                    <!-- Divider -->
+                    <hr class="sidebar-divider">
 
-            <li class="nav-item active">
-                <a class="nav-link" href="../admin/assign_chore_view.php"
-                    onclick="loadContent('assign_chore_view.php')">
-                    <i class="fas fa-fw fa-tasks"></i>
-                    <span>Assign Chore</span></a>
-            </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../admin/assign_chore_view.php"
+                            onclick="loadContent('assign_chore_view.php')">
+                            <i class="fas fa-fw fa-tasks"></i>
+                            <span>Assign Chore</span></a>
+                    </li>
+
+
+                    
+           
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -74,40 +88,22 @@ include_once '../actions/get_all_chores_actions.php';
                     <i class="fas fa-fw fa-table"></i>
                     <span>Manage Chore </span></a>
             </li>
-            <!-- Divider -->
             <hr class="sidebar-divider">
 
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="../view/chore_manage.php" onclick="loadContent('chore_manage.php')">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Chore Management</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-
-            <!-- Nav Item - Tables -->
+            <!-- Nav Item - Logout -->
             <li class="nav-item">
                 <a class="nav-link" href="../login/login.php" onclick="logout()">
                     <i class="fas fa-fw fa-sign-in-alt"></i>
                     <span>Logout</span></a>
             </li>
 
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-
-
         </ul>
+
 
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -115,8 +111,16 @@ include_once '../actions/get_all_chores_actions.php';
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
             </div>
-
-            <a><button id="addChoreButton">Add Chore</button></a>
+            <?php
+            if (isset($_SESSION['role_id'])) {
+                $rid = $_SESSION['role_id'];
+                if ($rid == 1 || $rid == 2) {
+            ?>
+                    <a><button id="addChoreButton">Add Chore</button></a>
+            <?php
+                }
+            }
+            ?>
 
             <div id="addChorePopup" class="popup">
                 <button id="closePopupBtn" class="close-btn">&times;</button>
@@ -153,13 +157,7 @@ include_once '../actions/get_all_chores_actions.php';
                     <div class="table-responsive">
 
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-
-                                    <th>Chore Name:</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
+                            
                             <?php
                             include_once ('../functions/chore_fxn.php');
                             generateTableRows(getAllChores());
@@ -168,7 +166,14 @@ include_once '../actions/get_all_chores_actions.php';
                     </div>
                 </div>
 
-
+                <!-- Bootstrap core JavaScript-->
+                <script src="../vendor/jquery/jquery.min.js"></script>
+                <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <!-- Core plugin JavaScript-->
+                <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+                <!-- Custom scripts for all pages-->
+                <script src="../js/sb-admin-2.min.js"></script>
+                <!-- Your custom scripts -->
 
                 <script src="../js/dashboard.js"></script>
                 <script src="../js/add-chore.js"></script>
@@ -185,11 +190,11 @@ include_once '../actions/get_all_chores_actions.php';
                                 document.getElementById('editChoreId').value = choreId;
 
                                 document.getElementById('editChorePopup').style.display = 'block';
-                                
+
                                 var closeButton = document.getElementById('editclosePopupBtn');
                                 console.log("Close button clicked");
                                 closeButton.addEventListener('click', function () {
-                                     console.log("Close button clicked");
+                                    console.log("Close button clicked");
                                     document.getElementById('editChorePopup').style.display = 'none';
                                 });
 
